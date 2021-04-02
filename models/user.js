@@ -4,7 +4,11 @@ const { isAfter } = require('date-fns');
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
-    static associate (models) {}
+    static associate (models) {
+      User.hasMany(models.Task, {
+        foreignKey: 'userId',
+      });
+    }
   }
   User.init(
     {
@@ -40,6 +44,9 @@ module.exports = (sequelize, DataTypes) => {
         field: 'password_hash',
         allowNull: false,
         type: DataTypes.TEXT,
+        set (v) {
+          this.setDataValue('password', 'new_hash');
+        },
       },
       birthday: {
         type: DataTypes.DATEONLY,
