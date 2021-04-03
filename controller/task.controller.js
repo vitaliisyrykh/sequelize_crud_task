@@ -24,3 +24,16 @@ module.exports.getUserTasks = async (req, res, next) => {
     next(err);
   }
 };
+module.exports.updateTask = async (req, res, next) => {
+  try {
+    const { body, taskInstance } = req;
+
+    const updatedTask = await taskInstance.update(body, {
+      returning: true,
+    });
+
+    res.status(200).send({ data: updatedTask });
+  } catch (error) {
+    next(error);
+  }
+};
