@@ -65,6 +65,17 @@ module.exports.updateUserInstance = async (req, res, next) => {
   }
 };
 
+module.exports.getUser = async (req, res, next) => {
+  try {
+    const { userInstance } = req;
+    
+    const user =  userInstance;
+    res.status(200).send(user);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports.deleteUser = async (req, res, next) => {
   try {
     const {
