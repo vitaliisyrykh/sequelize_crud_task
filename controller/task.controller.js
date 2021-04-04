@@ -18,7 +18,7 @@ module.exports.getUserTasks = async (req, res, next) => {
   try {
     const { userInstance } = req;
 
-    const tasks = await userInstance.getTasks();
+    const tasks = await userInstance.getTasks({limit: 5});
 
     res.send({ data: tasks });
   } catch (err) {
@@ -27,12 +27,10 @@ module.exports.getUserTasks = async (req, res, next) => {
 };
 module.exports.updateTask = async (req, res, next) => {
   try {
-    const {
-      body,
-      params: { idTask },
-    } = req;
+    const { body, taskInstance } = req;
 
-    const task = await taskInstance.update(body, {
+    const task = taskInstance;
+    const updatedTask = await task.update(body, {
       returning: true,
     });
 
@@ -42,11 +40,26 @@ module.exports.updateTask = async (req, res, next) => {
   }
 };
 
+module.exports.basicUpdateTask = async (req, res, next) => {
+  try {
+    const {
+      body,
+      params: { idTask },
+    } = req;
+    const [rowsCount, [updatedTask]] = await Task.update(body, {
+      where: { id: idTask },
+      returning: true,
+    });
+    res.status(201).send(updatedTask);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports.getTask = async (req, res, next) => {
   try {
     const { taskInstance } = req;
-    const task = taskInstance;
-    res.status(201).send(task);
+    res.status(201).send(taskInstance);
   } catch (err) {
     next(err);
   }
