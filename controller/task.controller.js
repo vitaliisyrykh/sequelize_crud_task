@@ -64,3 +64,26 @@ module.exports.getTask = async (req, res, next) => {
     next(err);
   }
 };
+module.exports.taskDelete = async (req,res,next)=>{
+  try{
+    const{
+      params:{idTask}
+    }=req;
+
+    const task = await Task.findByPk(+idTask);
+    const result = await task.destroy();
+    res.send({data:result})
+  }catch(err){
+    next(err)
+  }
+}
+
+/* module.exports.taskDelete = async (req, res, next)=>{
+  try {
+    const{userInstance,params:{idTask}}=req;
+    const result = await userInstance.removeTask({where:{id:idTask}});
+    res.send(result);
+  } catch (error) {
+    
+  }
+} */
