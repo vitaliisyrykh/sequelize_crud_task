@@ -10,6 +10,6 @@ taskRouter
   .route('/task/:idTask')
   .get(checkTask, TaskController.getTask)
   .patch(checkTask, TaskController.basicUpdateTask)
-  .delete();
+  .delete(checkTask, TaskController.taskDelete);
 
 module.exports = taskRouter;

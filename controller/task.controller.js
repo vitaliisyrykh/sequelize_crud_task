@@ -64,7 +64,7 @@ module.exports.getTask = async (req, res, next) => {
     next(err);
   }
 };
-module.exports.taskDelete = async (req, res, next) => {
+/* module.exports.taskDelete = async (req, res, next) => {
   try {
     const {
       params: { idTask },
@@ -76,14 +76,16 @@ module.exports.taskDelete = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+}; */
+
+module.exports.taskDelete = async (req, res, next) => {
+  try {
+    const { taskInstance, userInstance } = req;
+
+    const result = await userInstance.removeTask();
+    res.send(taskInstance);
+  } catch (err) {
+    next(err);
+  }
 };
 
-/* module.exports.taskDelete = async (req, res, next)=>{
-  try {
-    const{userInstance,params:{idTask}}=req;
-    const result = await userInstance.removeTask({where:{id:idTask}});
-    res.send(result);
-  } catch (error) {
-    
-  }
-} */
