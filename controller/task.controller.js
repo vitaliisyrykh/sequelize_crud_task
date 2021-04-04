@@ -1,4 +1,5 @@
 const { Task } = require('../models');
+const task = require('../models/task');
 
 module.exports.createTask = async (req, res, next) => {
   try {
@@ -26,14 +27,27 @@ module.exports.getUserTasks = async (req, res, next) => {
 };
 module.exports.updateTask = async (req, res, next) => {
   try {
-    const { body, taskInstance } = req;
+    const {
+      body,
+      params: { idTask },
+    } = req;
 
-    const updatedTask = await taskInstance.update(body, {
+    const task = await taskInstance.update(body, {
       returning: true,
     });
 
     res.status(200).send({ data: updatedTask });
   } catch (error) {
     next(error);
+  }
+};
+
+module.exports.getTask = async (req, res, next) => {
+  try {
+    const { taskInstance } = req;
+    const task = taskInstance;
+    res.status(201).send(task);
+  } catch (err) {
+    next(err);
   }
 };
