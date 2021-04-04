@@ -13,7 +13,7 @@ router.patch('/user-v2/:id', checkUser, UserController.updateUserInstance);
 router.delete('/user/:id', UserController.deleteUser);
 
 router.get('/user/:id/task', checkUser, TaskController.getUserTasks);
-/* routеr.get('/user/:id/task/:idTask', checkUser, checkTask); */
+router.get('/user/:id/task/:idTask', checkUser, checkTask, TaskController.getTask);
 router.post('/user/:id/task', checkUser, TaskController.createTask);
 router.patch(
   '/user/:id/task/:idTask',
