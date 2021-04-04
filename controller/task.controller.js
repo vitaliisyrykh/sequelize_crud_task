@@ -18,7 +18,7 @@ module.exports.getUserTasks = async (req, res, next) => {
   try {
     const { userInstance } = req;
 
-    const tasks = await userInstance.getTasks({limit: 5});
+    const tasks = await userInstance.getTasks({ limit: 5 });
 
     res.send({ data: tasks });
   } catch (err) {
@@ -64,19 +64,19 @@ module.exports.getTask = async (req, res, next) => {
     next(err);
   }
 };
-module.exports.taskDelete = async (req,res,next)=>{
-  try{
-    const{
-      params:{idTask}
-    }=req;
+module.exports.taskDelete = async (req, res, next) => {
+  try {
+    const {
+      params: { idTask },
+    } = req;
 
     const task = await Task.findByPk(+idTask);
     const result = await task.destroy();
-    res.send({data:result})
-  }catch(err){
-    next(err)
+    res.send({ data: result });
+  } catch (err) {
+    next(err);
   }
-}
+};
 
 /* module.exports.taskDelete = async (req, res, next)=>{
   try {

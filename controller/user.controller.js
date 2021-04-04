@@ -19,7 +19,7 @@ module.exports.getAllUsers = async (req, res, next) => {
       attributes: {
         exclude: ['password'],
       },
-      limit: 10
+      limit: 10,
     });
     res.status(200).send({
       data: users,
@@ -69,8 +69,8 @@ module.exports.updateUserInstance = async (req, res, next) => {
 module.exports.getUser = async (req, res, next) => {
   try {
     const { userInstance } = req;
-    
-    const user =  userInstance;
+
+    const user = userInstance;
     res.status(200).send(user);
   } catch (error) {
     next(error);

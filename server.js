@@ -9,9 +9,6 @@ server.listen(port, () => {
   console.log(`APP started on port ${port}`);
 });
 
-
-
-
 /* 
 
 
@@ -20,5 +17,3 @@ server.listen(port, () => {
             npx sequelize --help
 
 */
-
-

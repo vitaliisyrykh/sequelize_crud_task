@@ -8,16 +8,16 @@ module.exports.checkTask = async (req, res, next) => {
     } = req;
     console.log(idTask);
     const taskInstance = await userInstance.getTasks({
-      where:{
-        id:+idTask
-      }
+      where: {
+        id: +idTask,
+      },
     });
 
     if (!taskInstance) {
       throw new Error('task not found');
     }
     req.taskInstance = taskInstance;
-    
+
     next();
   } catch (err) {
     next(err);
