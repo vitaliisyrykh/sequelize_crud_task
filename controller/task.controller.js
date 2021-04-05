@@ -43,11 +43,11 @@ module.exports.updateTask = async (req, res, next) => {
 module.exports.basicUpdateTask = async (req, res, next) => {
   try {
     const {
-      body,
+      body:{body},
       params: { idTask },
     } = req;
-    const [rowsCount, [updatedTask]] = await Task.update(body, {
-      where: { id: idTask },
+    const [rowsCount, [updatedTask]] = await Task.update({body}, {
+      where: { id: +idTask },
       returning: true,
     });
     res.status(201).send(updatedTask);
@@ -82,7 +82,7 @@ module.exports.taskDelete = async (req, res, next) => {
   try {
     const { taskInstance, userInstance } = req;
 
-    const result = await userInstance.removeTask();
+    const result = await userInstance.removeTask(taskInstance);
     res.send(taskInstance);
   } catch (err) {
     next(err);
