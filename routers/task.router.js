@@ -3,11 +3,11 @@ const TaskController = require('./../controller/task.controller');
 
 const { checkTask } = require('./../middlewares/tasks.mw');
 
-taskRouter.post('/task', TaskController.createTask);
-taskRouter.get('/task', TaskController.getUserTasks);
+taskRouter.post('/', TaskController.createTask);
+taskRouter.get('/', TaskController.getUserTasks);
 
 taskRouter
-  .route('/task/:idTask')
+  .route('/:idTask')
   .get(checkTask, TaskController.getTask)
   .patch(checkTask, TaskController.basicUpdateTask)
   .delete(checkTask, TaskController.taskDelete);

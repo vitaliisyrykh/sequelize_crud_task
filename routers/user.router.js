@@ -10,6 +10,6 @@ userRouter
   .get(checkUser, UserController.getUser)
   .patch(UserController.updateUser)
   .delete(UserController.deleteUser);
-userRouter.use('/:id', checkUser, taskRouter);
+userRouter.use('/:id/task', checkUser, taskRouter);
 
 module.exports = userRouter;
