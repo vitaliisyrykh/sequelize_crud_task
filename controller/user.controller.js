@@ -1,3 +1,4 @@
+const createError = require('http-errors');
 const { User } = require('../models');
 
 module.exports.createUser = async (req, res, next) => {
@@ -5,7 +6,11 @@ module.exports.createUser = async (req, res, next) => {
     const { body } = req;
     const createdUser = await User.create(body);
     console.log(createdUser);
-    res.status(201).send({
+    if(!createdUser){
+      const err = createError(400, 'Some went wrong')
+      return next(err);
+    }
+    res.status(200).send({
       data: createdUser,
     });
   } catch (err) {
@@ -21,6 +26,11 @@ module.exports.getAllUsers = async (req, res, next) => {
       },
       limit: 10,
     });
+
+    if(!users){
+      const err = createError(404, 'Users not found');
+      return next(err);
+    }
     res.status(200).send({
       data: users,
     });
@@ -41,10 +51,15 @@ module.exports.updateUser = async (req, res, next) => {
       returning: true,
     });
 
+    if(rowsCount !== 1){
+      const err = createError(404, 'User not found');
+      return next(err);
+    }
+
     // delete updatedUser.password;
     updatedUser.password = undefined;
 
-    res.send({ data: updatedUser });
+    res.status(200).send({ data: updatedUser });
   } catch (err) {
     next(err);
   }
@@ -59,6 +74,10 @@ module.exports.updateUserInstance = async (req, res, next) => {
     });
 
     updateduserInstance.password = undefined;
+    if(!updateduserInstance){
+      const err = createError(400, ' Can`t update user datas')
+      return next(err);
+    }
 
     res.send({ data: updateduserInstance });
   } catch (err) {
@@ -86,6 +105,10 @@ module.exports.deleteUser = async (req, res, next) => {
     const user = await User.findByPk(id);
 
     const result = await user.destroy();
+    if(!result){
+      const err = createError(400, 'Can`t delete user')
+      return next(err);
+    }
     console.log(result);
     res.send({ data: user });
   } catch (err) {

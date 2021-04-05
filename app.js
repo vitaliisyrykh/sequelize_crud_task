@@ -11,9 +11,11 @@ app.use(express.json()); // data stream -> json -> js object -> req.body
 app.use(router);
 
 app.use((err, req, res, next) => {
-  res.status(500).send({
-    errors: [{ message: err.message }],
-  });
+  console.log('Err caught: ->>>>', err);
+  if(res.headerSent){
+    return;
+  }
+  res.status(err.message || 'Server Error').send({errors:[err.status || 500]});
 });
 
 module.exports = app;
