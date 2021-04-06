@@ -20,7 +20,12 @@ module.exports.addGroup = async (req, res, next) => {
     const user = await User.findByPk(id);
     user.addGroup(group);
     const userWithAllGroup = await User.findByPk(id, {
-      include: [Group],
+      include: {
+        model: [Group],
+        through: {
+          attributes: [],
+        },
+      },
     });
     res.send(userWithAllGroup);
   } catch (err) {
